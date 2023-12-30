@@ -40,8 +40,10 @@ namespace Pon.Site.Net.Api.Services
             return await _context.Categorias.ToListAsync();
         }
 
-        public async Task<Categoria> Update(Categoria categoria)
+        public async Task<Categoria> Update(Categoria categoriaActualizada)
         {
+            var categoria = await Get((Guid)categoriaActualizada.Id);
+            categoria.Nombre = categoriaActualizada.Nombre;
             var entry = _context.Categorias.Update(categoria);
             await _context.SaveChangesAsync();
             return entry.Entity;

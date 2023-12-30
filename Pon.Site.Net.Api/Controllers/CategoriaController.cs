@@ -86,7 +86,6 @@ namespace Pon.Site.Net.Api.Controllers
                     });
                 }
 
-                //TODO: Fix Update
                 var actualizada = await _service.Update(categoriaActualizada);
                 return Ok(actualizada);
             }
