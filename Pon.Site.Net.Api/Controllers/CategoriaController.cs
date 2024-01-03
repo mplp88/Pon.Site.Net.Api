@@ -29,7 +29,7 @@ namespace Pon.Site.Net.Api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ErrorResponse("Error obteniendo categorías", ex));
+                return BadRequest(new ErrorResponse("Error obteniendo la lista de categorías", ex));
             }
         }
 

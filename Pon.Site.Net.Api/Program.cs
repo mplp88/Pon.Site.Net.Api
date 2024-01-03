@@ -14,6 +14,8 @@ builder.Services.AddDbContext<PonSiteApiContext>(options =>
     var accountEndpoint = builder.Configuration.GetValue<string>("CosmosDb:EndpointUri");
     var accountKey = builder.Configuration.GetValue<string>("CosmosDb:PrimaryKey");
     options.UseCosmos(accountEndpoint, accountKey, databaseName: "ToDoList");
+    options.UseLazyLoadingProxies();
+    options.LogTo(Console.WriteLine, LogLevel.Debug);
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
