@@ -50,7 +50,7 @@ namespace Pon.Site.Net.Api.Services
             producto.Nombre = productoActualizado.Nombre;
             producto.Descripcion = productoActualizado.Descripcion;
             producto.Precio = productoActualizado.Precio;
-            producto.Categoria = productoActualizado.Categoria;
+            producto.CategoriaId = productoActualizado.CategoriaId;
             
             var entry = _context.Productos.Update(producto);
             await _context.SaveChangesAsync();
