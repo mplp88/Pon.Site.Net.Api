@@ -5,7 +5,7 @@ using Pon.Site.Net.Api.Services.Interfaces;
 
 namespace Pon.Site.Net.Api.Services
 {
-    public class ProductoService : IService<Producto>
+    public class ProductoService : IProductoService
     {
         private readonly PonSiteApiContext _context;
 
@@ -45,16 +45,23 @@ namespace Pon.Site.Net.Api.Services
 
         public async Task<Producto> Update(Producto productoActualizado)
         {
-            var producto = await Get((Guid)productoActualizado.Id);
-            
-            producto.Nombre = productoActualizado.Nombre;
-            producto.Descripcion = productoActualizado.Descripcion;
-            producto.Precio = productoActualizado.Precio;
-            producto.Categoria = productoActualizado.Categoria;
-            
-            var entry = _context.Productos.Update(producto);
-            await _context.SaveChangesAsync();
-            return entry.Entity;
+            try
+            {
+                var producto = await Get((Guid)productoActualizado.Id);
+
+                producto.Nombre = productoActualizado.Nombre;
+                producto.Descripcion = productoActualizado.Descripcion;
+                producto.Precio = productoActualizado.Precio;
+                producto.Categoria = productoActualizado.Categoria;
+
+                var entry = _context.Productos.Update(producto);
+                await _context.SaveChangesAsync();
+                return entry.Entity;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

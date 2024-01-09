@@ -11,9 +11,9 @@ namespace Pon.Site.Net.Api.Controllers
     [ApiController]
     public class CategoriaController : ControllerBase
     {
-        private readonly IService<Categoria> _service;
+        private readonly ICategoriaService _service;
 
-        public CategoriaController(IService<Categoria> service)
+        public CategoriaController(ICategoriaService service)
         {
             _service = service;
         }

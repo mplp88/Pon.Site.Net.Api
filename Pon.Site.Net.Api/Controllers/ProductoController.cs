@@ -11,9 +11,9 @@ namespace Pon.Site.Net.Api.Controllers
     [ApiController]
     public class ProductoController : ControllerBase
     {
-        private readonly IService<Producto> _service;
+        private readonly IProductoService _service;
 
-        public ProductoController(IService<Producto> service)
+        public ProductoController(IProductoService service)
         {
             _service = service;
         }

@@ -5,7 +5,7 @@ using Pon.Site.Net.Api.Services.Interfaces;
 
 namespace Pon.Site.Net.Api.Services
 {
-    public class CategoriaService : IService<Categoria>
+    public class CategoriaService : ICategoriaService
     {
         private readonly PonSiteApiContext _context;
 

@@ -9,8 +9,8 @@ namespace Pon.Site.Net.Api.Configuration
         public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IService<Item>, ToDoService>();
-            services.AddScoped<IService<Categoria>, CategoriaService>();
-            services.AddScoped<IService<Producto>, ProductoService>();
+            services.AddScoped<ICategoriaService, CategoriaService>();
+            services.AddScoped<IProductoService, ProductoService>();
         }
     }
 }
