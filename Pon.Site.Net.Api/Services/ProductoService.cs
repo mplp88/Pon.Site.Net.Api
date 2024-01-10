@@ -45,23 +45,16 @@ namespace Pon.Site.Net.Api.Services
 
         public async Task<Producto> Update(Producto productoActualizado)
         {
-            try
-            {
-                var producto = await Get((Guid)productoActualizado.Id);
-
-                producto.Nombre = productoActualizado.Nombre;
-                producto.Descripcion = productoActualizado.Descripcion;
-                producto.Precio = productoActualizado.Precio;
-                producto.Categoria = productoActualizado.Categoria;
-
-                var entry = _context.Productos.Update(producto);
-                await _context.SaveChangesAsync();
-                return entry.Entity;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            var producto = await Get((Guid)productoActualizado.Id);
+            
+            producto.Nombre = productoActualizado.Nombre;
+            producto.Descripcion = productoActualizado.Descripcion;
+            producto.Precio = productoActualizado.Precio;
+            producto.CategoriaId = productoActualizado.CategoriaId;
+            
+            var entry = _context.Productos.Update(producto);
+            await _context.SaveChangesAsync();
+            return entry.Entity;
         }
     }
 }
