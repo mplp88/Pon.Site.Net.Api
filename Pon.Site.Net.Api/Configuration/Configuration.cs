@@ -11,6 +11,7 @@ namespace Pon.Site.Net.Api.Configuration
             services.AddScoped<IService<Item>, ToDoService>();
             services.AddScoped<ICategoriaService, CategoriaService>();
             services.AddScoped<IProductoService, ProductoService>();
+            services.AddScoped<ICarritoService, CarritoService>();
         }
     }
 }
