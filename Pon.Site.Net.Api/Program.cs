@@ -9,6 +9,9 @@ builder.Services.AddControllers();
 
 builder.Services.AddServices();
 
+builder.Services.AddAuthentication().AddJwtBearer();
+
+
 builder.Services.AddDbContext<PonSiteApiContext>(options =>
 {
     var accountEndpoint = builder.Configuration.GetValue<string>("CosmosDb:EndpointUri");
