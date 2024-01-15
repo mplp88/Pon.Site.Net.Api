@@ -27,7 +27,7 @@ namespace Pon.Site.Net.Api.Controllers
         }
 
         // PUT api/<CarritoController>/5
-        [HttpPut("{id}/add")]
+        [HttpPut("{id}/addProduct")]
         public async Task<IActionResult> AddProduct(Guid id, [FromBody] Producto producto)
         {
             var carrito = await _service.AddProduct(id, producto);
@@ -35,10 +35,17 @@ namespace Pon.Site.Net.Api.Controllers
         }
 
         // DELETE api/<CarritoController>/5
-        [HttpPut("{id}/remove")]
+        [HttpPut("{id}/removeProduct")]
         public async Task<IActionResult> RemoveProduct(Guid id, [FromBody] Producto producto)
         {
             var carrito = await _service.RemoveProduct(id, producto);
+            return Ok(carrito);
+        }
+
+        [HttpPut("{id}/emptyCart")]
+        public async Task<IActionResult> EmptyCart(Guid id)
+        {
+            var carrito = await _service.EmptyCart(id);
             return Ok(carrito);
         }
     }

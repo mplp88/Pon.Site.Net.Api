@@ -22,12 +22,12 @@ namespace Pon.Site.Net.Api.Services
             return entry.Entity;
         }
 
-        public async Task<Carrito> AddProduct(Guid? carritoId, Producto producto)
+        public async Task<Carrito> AddProduct(Guid? id, Producto producto)
         {
             Carrito carrito;
-            if(carritoId != null)
+            if(id != null)
             {
-                carrito = await Get((Guid)carritoId);
+                carrito = await Get((Guid)id);
             }
             else
             {
@@ -66,6 +66,27 @@ namespace Pon.Site.Net.Api.Services
             return true;
         }
 
+        public async Task<Carrito> EmptyCart(Guid id)
+        {
+            Carrito carrito;
+            if(id != null)
+            {
+                carrito = await Get((Guid)id);
+            }
+            else
+            {
+                carrito = new Carrito();
+            }
+
+            var productos = carrito.Productos.ToList();
+            productos.Clear();
+            carrito.Productos = productos;
+
+            _context.Update(carrito);
+            await _context.SaveChangesAsync();
+            return carrito;
+        }
+
         public async Task<Carrito?> Get(Guid id)
         {
             var carrito = await _context.Carritos.FirstOrDefaultAsync(c => c.Id == id);
@@ -91,12 +112,12 @@ namespace Pon.Site.Net.Api.Services
             return carrito;
         }
 
-        public async Task<Carrito> RemoveProduct(Guid? carritoId, Producto producto)
+        public async Task<Carrito> RemoveProduct(Guid? id, Producto producto)
         {
             Carrito carrito;
-            if (carritoId != null)
+            if (id != null)
             {
-                carrito = await Get((Guid)carritoId);
+                carrito = await Get((Guid)id);
             }
             else
             {
