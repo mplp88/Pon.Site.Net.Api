@@ -9,5 +9,8 @@ namespace Pon.Site.Net.Api.Context
             : base(options) { }
 
         public DbSet<Item> ToDos { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<Producto> Productos { get; set; }
+        public DbSet<Carrito> Carritos { get; set; }
     }
 }
