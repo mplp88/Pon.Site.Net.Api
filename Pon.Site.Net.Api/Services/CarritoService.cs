@@ -22,25 +22,17 @@ namespace Pon.Site.Net.Api.Services
             return entry.Entity;
         }
 
-        public async Task<Carrito> AddProduct(Guid? id, Producto producto)
+        public async Task<Carrito> AddProduct(Guid id, Producto producto)
         {
-            Carrito carrito;
-            if(id != null)
-            {
-                carrito = await Get((Guid)id);
-            }
-            else
-            {
-                carrito = new Carrito();
-            }
+            var carrito = await Get(id);
+            
+            var productos = carrito.Productos.ToList();
 
             if(carrito.Productos.Any(p => p.ProductoId == producto.Id))
             {
-                var productos = carrito.Productos;
                 var productoPedido = productos.First(c => c.ProductoId == producto.Id);
                 productoPedido.Cantidad++;
                 productoPedido.Valor = producto.Precio * productoPedido.Cantidad;
-                carrito.Productos = productos;
             }
             else
             {
@@ -48,11 +40,11 @@ namespace Pon.Site.Net.Api.Services
                 productoPedido.ProductoId = producto.Id;
                 productoPedido.Cantidad = 1;
                 productoPedido.Valor = producto.Precio * productoPedido.Cantidad;
-                var productos = carrito.Productos.ToList();
                 productos.Add(productoPedido);
-                carrito.Productos = productos;
             }
 
+            carrito.Productos = productos;
+            carrito.Total = productos.Select(x => x.Valor).Sum();
             var entry = _context.Update(carrito);
             await _context.SaveChangesAsync();
             return entry.Entity;
@@ -68,19 +60,12 @@ namespace Pon.Site.Net.Api.Services
 
         public async Task<Carrito> EmptyCart(Guid id)
         {
-            Carrito carrito;
-            if(id != null)
-            {
-                carrito = await Get((Guid)id);
-            }
-            else
-            {
-                carrito = new Carrito();
-            }
+            var carrito = await Get(id);
 
             var productos = carrito.Productos.ToList();
             productos.Clear();
             carrito.Productos = productos;
+            carrito.Total = 0;
 
             _context.Update(carrito);
             await _context.SaveChangesAsync();
@@ -99,7 +84,7 @@ namespace Pon.Site.Net.Api.Services
             return await Task.FromResult<IEnumerable<Carrito>>(new List<Carrito>());
         }
 
-        public async Task<Carrito> GetByClienteId(Guid? clienteId)
+        public async Task<Carrito> GetByClienteId(Guid clienteId)
         {
             var carrito = await _context.Carritos.FirstOrDefaultAsync(c => c.ClienteId == clienteId);
             if (carrito == null)
@@ -112,27 +97,30 @@ namespace Pon.Site.Net.Api.Services
             return carrito;
         }
 
-        public async Task<Carrito> RemoveProduct(Guid? id, Producto producto)
+        public async Task<Carrito> RemoveProduct(Guid id, Producto producto)
         {
-            Carrito carrito;
-            if (id != null)
-            {
-                carrito = await Get((Guid)id);
-            }
-            else
-            {
-                carrito = new Carrito();
-            }
+            var carrito = await Get((Guid)id);
 
-            if (carrito.Productos.Any(p => p.Producto == producto))
+            if (carrito.Productos.Any(p => p.Producto.Id == producto.Id))
             {
-                var productoPedido = carrito.Productos.First(c => c.Producto == producto);
+                var productos = carrito.Productos.ToList();
+                var productoPedido = productos.First(c => c.Producto.Id == producto.Id);
                 productoPedido.Cantidad--;
+
+                productoPedido.Valor = productoPedido.Producto.Precio * productoPedido.Cantidad;
 
                 if(productoPedido.Cantidad == 0)
                 {
-                    carrito.Productos.ToList().Remove(productoPedido);
+                    productos.Remove(productoPedido);
                 }
+
+                carrito.Productos = productos;
+                carrito.Total = 0;
+
+                if (productos.Any())
+                {
+                    carrito.Total = productos.Select(x => x.Valor).Sum();
+                }    
             }
 
             _context.Update(carrito);

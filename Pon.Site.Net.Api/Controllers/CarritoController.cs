@@ -18,8 +18,17 @@ namespace Pon.Site.Net.Api.Controllers
         }
 
         // GET api/<CarritoController>/5
-        [HttpGet("{clienteId}")]
-        public async Task<IActionResult> Get(Guid clienteId)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var carrito = await _service.Get(id);
+
+            return Ok(carrito);
+        }
+
+        // GET api/<CarritoController>/5
+        [HttpGet("clienteId/{clienteId}")]
+        public async Task<IActionResult> GetByClienteId(Guid clienteId)
         {
             var carrito = await _service.GetByClienteId(clienteId);
 
