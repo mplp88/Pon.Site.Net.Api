@@ -21,7 +21,7 @@ namespace Pon.Site.Net.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var carrito = await _service.Get(id);
+            var carrito = await _service.GetById(id);
 
             return Ok(carrito);
         }

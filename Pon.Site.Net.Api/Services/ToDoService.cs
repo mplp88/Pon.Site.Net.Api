@@ -5,7 +5,7 @@ using Pon.Site.Net.Api.Services.Interfaces;
 
 namespace Pon.Site.Net.Api.Services
 {
-    public class ToDoService : IService<Item>
+    public class ToDoService : IToDoService
     {
         private readonly PonSiteApiContext _context;
 
@@ -14,26 +14,26 @@ namespace Pon.Site.Net.Api.Services
             _context = context;
         }
 
-        public async Task<Item> Add(Item todo)
+        public async Task<ToDo> Add(ToDo todo)
         {
             var entry = await _context.AddAsync(todo);
             await _context.SaveChangesAsync();
             return entry.Entity;
         }
 
-        public async Task<IEnumerable<Item>> Get()
+        public async Task<IEnumerable<ToDo>> GetAll()
         {
             return await _context.ToDos.ToListAsync();
         }
 
-        public async Task<Item?> Get(Guid id)
+        public async Task<ToDo?> GetById(Guid id)
         {
             var todo = await _context.ToDos.FirstOrDefaultAsync(t => t.Id == id);
 
             return todo;
         }
 
-        public async Task<Item> Update(Item item)
+        public async Task<ToDo> Update(ToDo item)
         {
             var entry = _context.ToDos.Update(item);
             await _context.SaveChangesAsync();
@@ -42,7 +42,7 @@ namespace Pon.Site.Net.Api.Services
 
         public async Task<bool> Delete(Guid id)
         {
-            var todo = await Get(id);
+            var todo = await GetById(id);
             _context.ToDos.Remove(todo);
             await _context.SaveChangesAsync();
             return true;

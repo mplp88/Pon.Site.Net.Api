@@ -24,7 +24,7 @@ namespace Pon.Site.Net.Api.Controllers
         {
             try
             {
-                var categorias = await _service.Get();
+                var categorias = await _service.GetAll();
                 return Ok(categorias);
             }
             catch (Exception ex)
@@ -39,7 +39,7 @@ namespace Pon.Site.Net.Api.Controllers
         {
             try
             {
-                var categoria = await _service.Get(id);
+                var categoria = await _service.GetById(id);
                 if (categoria == null)
                 {
                     return NotFound(new
@@ -77,7 +77,7 @@ namespace Pon.Site.Net.Api.Controllers
         {
             try
             {
-                var categoria = await _service.Get(id);
+                var categoria = await _service.GetById(id);
                 if (categoria == null)
                 {
                     return NotFound(new
@@ -101,7 +101,7 @@ namespace Pon.Site.Net.Api.Controllers
         {
             try
             {
-                var categoria = await _service.Get(id);
+                var categoria = await _service.GetById(id);
                 if (categoria == null)
                 {
                     return NotFound(new
