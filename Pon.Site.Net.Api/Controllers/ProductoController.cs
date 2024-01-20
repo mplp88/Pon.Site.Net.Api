@@ -24,7 +24,7 @@ namespace Pon.Site.Net.Api.Controllers
         {
             try
             {
-                var productos = await _service.Get();
+                var productos = await _service.GetAll();
                 return Ok(productos);
             }
             catch(Exception ex)
@@ -39,7 +39,7 @@ namespace Pon.Site.Net.Api.Controllers
         {
             try
             {
-                var producto = await _service.Get(id);
+                var producto = await _service.GetById(id);
                 if(producto == null)
                 {
                     return NotFound(new
@@ -77,7 +77,7 @@ namespace Pon.Site.Net.Api.Controllers
         {
             try
             {
-                var producto = await _service.Get(id);
+                var producto = await _service.GetById(id);
                 if (producto == null)
                 {
                     return NotFound(new
@@ -101,7 +101,7 @@ namespace Pon.Site.Net.Api.Controllers
         {
             try
             {
-                var producto = await _service.Get(id);
+                var producto = await _service.GetById(id);
                 if(producto == null)
                 {
                     return NotFound(new

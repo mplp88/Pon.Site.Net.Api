@@ -24,25 +24,25 @@ namespace Pon.Site.Net.Api.Services
 
         public async Task<bool> Delete(Guid id)
         {
-            var categoria = await Get(id);
+            var categoria = await GetById(id);
             _context.Categorias.Remove(categoria);
             await _context.SaveChangesAsync();
             return true;
         }
 
-        public async Task<Categoria?> Get(Guid id)
+        public async Task<Categoria?> GetById(Guid id)
         {
             return await _context.Categorias.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<IEnumerable<Categoria>> Get()
+        public async Task<IEnumerable<Categoria>> GetAll()
         {
             return await _context.Categorias.ToListAsync();
         }
 
         public async Task<Categoria> Update(Categoria categoriaActualizada)
         {
-            var categoria = await Get((Guid)categoriaActualizada.Id);
+            var categoria = await GetById((Guid)categoriaActualizada.Id);
             categoria.Nombre = categoriaActualizada.Nombre;
             var entry = _context.Categorias.Update(categoria);
             await _context.SaveChangesAsync();

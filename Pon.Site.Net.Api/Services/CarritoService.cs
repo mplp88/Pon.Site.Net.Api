@@ -24,7 +24,7 @@ namespace Pon.Site.Net.Api.Services
 
         public async Task<Carrito> AddProduct(Guid id, Producto producto)
         {
-            var carrito = await Get(id);
+            var carrito = await GetById(id);
             
             var productos = carrito.Productos.ToList();
 
@@ -52,7 +52,7 @@ namespace Pon.Site.Net.Api.Services
 
         public async Task<bool> Delete(Guid id)
         {
-            var carrito = await Get(id);
+            var carrito = await GetById(id);
             _context.Carritos.Remove(carrito);
             await _context.SaveChangesAsync();
             return true;
@@ -60,7 +60,7 @@ namespace Pon.Site.Net.Api.Services
 
         public async Task<Carrito> EmptyCart(Guid id)
         {
-            var carrito = await Get(id);
+            var carrito = await GetById(id);
 
             var productos = carrito.Productos.ToList();
             productos.Clear();
@@ -72,14 +72,14 @@ namespace Pon.Site.Net.Api.Services
             return carrito;
         }
 
-        public async Task<Carrito?> Get(Guid id)
+        public async Task<Carrito?> GetById(Guid id)
         {
             var carrito = await _context.Carritos.FirstOrDefaultAsync(c => c.Id == id);
             return carrito;
         }
 
         //Esta función no debería ser llamada
-        public async Task<IEnumerable<Carrito>> Get()
+        public async Task<IEnumerable<Carrito>> GetAll()
         {
             return await Task.FromResult<IEnumerable<Carrito>>(new List<Carrito>());
         }
@@ -99,7 +99,7 @@ namespace Pon.Site.Net.Api.Services
 
         public async Task<Carrito> RemoveProduct(Guid id, Producto producto)
         {
-            var carrito = await Get((Guid)id);
+            var carrito = await GetById((Guid)id);
 
             if (carrito.Productos.Any(p => p.Producto.Id == producto.Id))
             {

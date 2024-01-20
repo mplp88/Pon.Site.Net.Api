@@ -24,20 +24,20 @@ namespace Pon.Site.Net.Api.Services
 
         public async Task<bool> Delete(Guid id)
         {
-            var producto = await Get(id);
+            var producto = await GetById(id);
             _context.Productos.Remove(producto);
             await _context.SaveChangesAsync();
             return true;
         }
 
-        public Task<Producto?> Get(Guid id)
+        public Task<Producto?> GetById(Guid id)
         {
             return _context.Productos
                 .Where(p => p.Id == id)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Producto>> Get()
+        public async Task<IEnumerable<Producto>> GetAll()
         {
             return await _context.Productos
                 .ToListAsync();
@@ -45,7 +45,7 @@ namespace Pon.Site.Net.Api.Services
 
         public async Task<Producto> Update(Producto productoActualizado)
         {
-            var producto = await Get((Guid)productoActualizado.Id);
+            var producto = await GetById((Guid)productoActualizado.Id);
             
             producto.Nombre = productoActualizado.Nombre;
             producto.Descripcion = productoActualizado.Descripcion;

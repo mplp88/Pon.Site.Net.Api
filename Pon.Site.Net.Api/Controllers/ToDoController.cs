@@ -11,9 +11,9 @@ namespace Pon.Site.Net.Api.Controllers
     [ApiController]
     public class ToDoController : ControllerBase
     {
-        private readonly IService<Item> _service;
+        private readonly IService<ToDo> _service;
 
-        public ToDoController(IService<Item> service)
+        public ToDoController(IService<ToDo> service)
         {
             _service = service;
         }
@@ -24,7 +24,7 @@ namespace Pon.Site.Net.Api.Controllers
         {
             try
             {
-                var todos = await _service.Get();
+                var todos = await _service.GetAll();
                 return Ok(todos);
             }
             catch (Exception ex)
@@ -40,7 +40,7 @@ namespace Pon.Site.Net.Api.Controllers
         {
             try
             {
-                var todo = await _service.Get(id);
+                var todo = await _service.GetById(id);
                 return Ok(todo);
             }
             catch (Exception ex)
@@ -52,7 +52,7 @@ namespace Pon.Site.Net.Api.Controllers
 
         // POST api/<ToDoController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Item toDo)
+        public async Task<IActionResult> Post([FromBody] ToDo toDo)
         {
             try
             {
@@ -66,11 +66,11 @@ namespace Pon.Site.Net.Api.Controllers
         }
 
         [HttpPut("/{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] Item updatedToDo)
+        public async Task<IActionResult> Update(Guid id, [FromBody] ToDo updatedToDo)
         {
             try
             {
-                var toDo = await _service.Get(id);
+                var toDo = await _service.GetById(id);
 
                 if (toDo == null)
                 {
