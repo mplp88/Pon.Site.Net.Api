@@ -11,9 +11,9 @@ namespace Pon.Site.Net.Api.Controllers
     [ApiController]
     public class ToDoController : ControllerBase
     {
-        private readonly IService<ToDo> _service;
+        private readonly IToDoService _service;
 
-        public ToDoController(IService<ToDo> service)
+        public ToDoController(IToDoService service)
         {
             _service = service;
         }
